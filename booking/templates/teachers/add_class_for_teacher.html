@@ -1,0 +1,13 @@
+<!-- teacher/add_class_for_teacher.html -->
+{% extends "base.html" %}
+
+{% block title %}Add Class for Students{% endblock %}
+
+{% block content %}
+<h1>Add Class for Students</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Class</button>
+</form>
+{% endblock %}

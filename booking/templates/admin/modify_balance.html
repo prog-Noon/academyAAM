@@ -1,0 +1,15 @@
+<!-- modify_balance.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify Balance</title>
+</head>
+<body>
+    <h1>Modify Student Balance</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

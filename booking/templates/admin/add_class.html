@@ -1,0 +1,15 @@
+<!-- add_class.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Class</title>
+</head>
+<body>
+    <h1>Add New Class</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

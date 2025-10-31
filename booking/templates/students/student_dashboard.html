@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome, {{ request.user.username }}</h2>
+
+  <h3>Your Booked Classes</h3>
+  <ul>
+    {% for booked_class in booked_classes %}
+      <li>
+        {{ booked_class.course.name }} with {{ booked_class.teacher.user.username }}<br>
+        Date: {{ booked_class.date|date:"D, M d, Y" }}<br>
+        Time: {{ booked_class.time }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Available Classes</h3>
+  <ul>
+    {% for available_class in available_classes %}
+      <li>
+        {{ available_class.course.name }} with {{ available_class.teacher.user.username }}<br>
+        Date: {{ available_class.date|date:"D, M d, Y" }}<br>
+        Time: {{ available_class.time }}<br>
+        <form method="post" action="{% url 'book_class' available_class.id %}">
+          {% csrf_token %}
+          <button type="submit">Book Class</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

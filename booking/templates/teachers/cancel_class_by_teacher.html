@@ -1,0 +1,25 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Cancel Class">
+</form>
+
+<script>
+    // Script for dynamic filtering
+    $(document).ready(function () {
+        $('#id_student').change(function () {
+            var studentId = $(this).val();
+            $.ajax({
+                url: '/get_available_dates/',  // URL to fetch available dates for the selected student
+                data: {
+                    'student_id': studentId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    // Update the dates select options based on the response
+                    $('#id_date').html(data);
+                }
+            });
+        });
+    });
+</script>

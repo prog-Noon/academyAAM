@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Classes{% endblock %}
+
+{% block content %}
+<h2>Classes</h2>
+<ul>
+    {% for class in classes %}
+        <li>{{ class.title }}</li>
+        <!-- Display other class details as needed -->
+    {% empty %}
+        <li>No classes found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

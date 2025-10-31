@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Register{% endblock %}
+
+    {% block content %}
+    <h1>User Registration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+         <!-- Your registration form fields go here -->
+        <!--<label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+        <br>
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        <br>
+        <label for="{{ form.password1.id_for_label }}">Password:</label>
+        {{ form.password1 }}
+        <br>
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+        {{ form.password2 }}
+        <br> -->
+        <!-- Add more fields as needed -->
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}
+
+</body>
+</html>

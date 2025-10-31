@@ -1,0 +1,67 @@
+<!-- Include FullCalendar.io CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<!-- Teacher Dashboard Menu -->
+<div class="menu">
+    <ul>
+        <li><a href="{% url 'add_class_for_teacher' %}">Add Class for Students</a></li>
+        <li><a href="{% url 'cancel_class_by_teacher' %}">Cancel Class</a></li>
+        <li><a href="{% url 'add_available_time' %}">Add Available Time</a></li>
+        <li><a href="{% url 'fill_class_completion_form' %}">Fill Class Completion Form</a></li>
+    </ul>
+</div>
+
+<h1>Welcome to the Teacher Dashboard</h1>
+
+<!-- Display FullCalendar.io calendar -->
+<div id="calendar"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',  // Display month-wise view
+            events: [
+                {% for class in scheduled_classes %}
+                {
+                    title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                    start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                    color: 'blue',  // Blue for scheduled classes
+                },
+                {% endfor %}
+                {% for class in completed_classes %}
+                {
+                    title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                    start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                    color: 'green',  // Green for completed classes
+                },
+                {% endfor %}
+                {% for class in canceled_classes %}
+                {
+                    title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                    start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                    color: 'red',  // Red for canceled classes
+                },
+                {% endfor %}
+                 // Add events for availability time
+                {% for availability in availabilities %}
+                {
+                  title: 'Available',
+                  start: '{{ availability.start }}T{{ availability.start_time }}',
+                  end: '{{ availability.end }}T{{ availability.end_time }}',
+                  color: 'gray',  // Use a different color for availability time
+                },
+                {% endfor %}
+                ],
+              });
+
+        calendar.render();
+    });
+</script>
+{% endblock %}

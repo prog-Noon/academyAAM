@@ -1,0 +1,91 @@
+<!-- Include FullCalendar.io CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Include FullCalendar.io core and interaction plugins JS -->
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.10.1/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.10.1/main.min.js"></script>
+
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<!-- Admin Dashboard Menu -->
+<div class="menu">
+    <ul>
+        <li><a href="{% url 'add_student_to_teacher' %}">Add Student to Teacher</a></li>
+        <li><a href="{% url 'add_course' %}">Add Course</a></li>
+        <li><a href="{% url 'add_class' %}">Add Class</a></li>
+        <li><a href="{% url 'cancel_class' %}">Cancel Class</a></li>
+        <li><a href="{% url 'modify_balance' %}">Modify Balance</a></li>
+    </ul>
+</div>
+
+    <h1>Welcome to the Admin Dashboard</h1>
+
+    <!-- Add your admin dashboard content here -->
+    <h2>Teachers</h2>
+    <ul>
+        {% for teacher in teachers %}
+            <li>{{ teacher.full_name }} - {{ teacher.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Students</h2>
+    <ul>
+        {% for student in students %}
+            <li>{{ student.full_name }} - {{ student.email }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <!-- Display FullCalendar.io calendar -->
+<div id="calendar"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',  // Display month-wise view
+            events: [
+            {% for class in scheduled_classes %}
+            {
+                title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                color: 'blue', // Blue for scheduled classes
+                <a href="{% url 'delete_class' class.id %}"><i class="fas fa-trash-alt"></i></a>,
+               
+            },
+        {% endfor %}
+        {% for class in completed_classes %}
+            {
+                title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                color: 'green',  // Green for completed classes
+            },
+        {% endfor %}
+        {% for class in canceled_classes %}
+            {
+                title: '{{ class.course }} - {{ class.teacher }} - {{ class.student }}',
+                start: '{{ class.date }}T{{ class.time }}',  // Include start time if needed
+                color: 'red',  // Red for canceled classes
+            },
+        {% endfor %}
+            ],
+        });
+
+        calendar.render();
+    });
+</script>
+
+<!--    <h2>Classes</h2>
+    <ul>
+        {% for class in scheduled_classes %}
+            <li>{{ class.name }} - {{ class.date }} - {{ class.time }}</li>
+        {% endfor %}
+    </ul>
+-->
+{% endblock %}

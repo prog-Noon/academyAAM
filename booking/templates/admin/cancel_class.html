@@ -1,0 +1,15 @@
+<!-- cancel_class.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancel Class</title>
+</head>
+<body>
+    <h1>Cancel Class</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cancel Class</button>
+    </form>
+</body>
+</html>
